@@ -1,0 +1,32 @@
+.collection .collection-item.avatar:not(.square-clipper)>.square,
+.collection .collection-item.avatar :not(.square-clipper)>.square {
+    position: absolute;
+    width: 44px;
+    height: 44px;
+    overflow: hidden;
+    left: 15px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.square {
+    border-radius: 20%;
+    padding: 2px;
+}
+
+.collection .collection-item.avatar .fav-content,
+.unfav-content {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+}
+
+.fav-content {
+    float: right;
+    color: #08c;
+}
+
+.unfav-content {
+    float: right;
+    color: #949494;
+}

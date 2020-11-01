@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Football Pocket</title>
+    <meta name="description" content="Free Football Apps" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="css/materialize.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-startup-image" href="icon/icon-512.png"
+        media="(min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)">
+    <link rel="apple-touch-icon" sizes="192x192" href="icon/icon-192.png">
+    <meta name="apple-mobile-web-app-status-bar" content="#08c">
+    <meta name="theme-color" content="#08c">
+</head>
+
+<body>
+
+    <!-- Start Navigation -->
+    <nav class="light-blue darken-2" role="navigation">
+        <div class="nav-wrapper container">
+            <a href="./" class="brand-logo" id="logo-container">Football Pocket</a>
+            <a href="#" class="sidenav-trigger" data-target="nav-mobile">&#9776;</a>
+            <ul class="topnav right hide-on-med-and-down"></ul>
+            <ul class="sidenav" id="nav-mobile"></ul>
+        </div>
+        <div class="progress" style="display:none;margin-top:0;">
+            <div class="indeterminate"></div>
+        </div>
+    </nav>
+    <div class="container" id="body-content">
+    </div>
+
+    <script src="js/materialize.min.js"></script>
+    <script src="js/nav.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/idb.js"></script>
+    <script src="js/db.js"></script>
+    <script>
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", function () {
+                navigator.serviceWorker
+                    .register("./sw.js")
+                    .then(function () {
+                        console.log("Pendaftaran ServiceWorker berhasil");
+                    })
+                    .catch(function () {
+                        console.log("Pendaftaran ServiceWorker gagal");
+                    });
+            });
+        } else {
+            console.log("ServiceWorker belum didukung browser ini.");
+        }
+
+        if (('PushManager' in window)) {
+            navigator.serviceWorker.getRegistration().then(registration => {
+                registration.pushManager.subscribe({
+                    userVisibleOnly: true,
+                    applicationServerKey: urlBase64ToUint8Array(
+                        "BHAdNzKSX14EfKa1SpguQNmNtb52WdA-qMFX6J2rdjfIm77E6Zq_WactiHcXmsN2xOQ-wFxQWwTHHn-O4R9HFhc"
+                    )
+                }).then(subscribe => {
+                    console.log('Berhasil melakukan subscribe dengan endpoint: ', subscribe.endpoint);
+                    console.log('Berhasil melakukan subscribe dengan p256dh key: ', btoa(String
+                        .fromCharCode.apply(
+                            null, new Uint8Array(subscribe.getKey('p256dh')))));
+                    console.log('Berhasil melakukan subscribe dengan auth key: ', btoa(String
+                        .fromCharCode.apply(
+                            null, new Uint8Array(subscribe.getKey('auth')))));
+                }).catch(e => {
+                    console.error('Tidak dapat melakukan subscribe ', e.message);
+                });
+            });
+        }
+    </script>
+</body>
+
+</html>
